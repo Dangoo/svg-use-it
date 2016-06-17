@@ -20,14 +20,14 @@ function sortItems(items, element) {
 	var filePath = parser.href;
 	var hash = parser.hash;
 
-	var item = items[filePath];
-
-	if (!item) {
+	if (!items[filePath]) {
 		items[filePath] = {
 			nodes: [],
 			fragments: []
 		};
 	}
+
+	var item = items[filePath];
 
 	item.nodes.push({
 		element: element,
@@ -154,7 +154,7 @@ function init(rootSelector, blacklist, query) {
 /**
  * @param {HTMLElement} testNode
  */
-function supportsExternalFragments(testNode) {
+function supportsExternalFragments (testNode) {
 	return testNode.getBoundingClientRect().width > 0;
 }
 
@@ -162,7 +162,7 @@ function supportsExternalFragments(testNode) {
  * @param {String} rootSelector Entry component
  * @param {Array}  blacklist    Blacklist for child nodes
  */
-module.exports = function (rootSelector, blacklist) {
+function svgUseIt (rootSelector, blacklist) {
 	// element name to query for
 	var query = 'use';
 	var testNode = document.querySelector(query);
@@ -182,3 +182,5 @@ module.exports = function (rootSelector, blacklist) {
 		init(rootSelector, blacklist, query);
 	}
 }
+
+module.exports = svgUseIt;

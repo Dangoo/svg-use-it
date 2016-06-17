@@ -1,11 +1,11 @@
-# SVGuseIt
+# SVG&lt;use&gt;It
 
 ## About
 
 In many web projects there are browser lists including IE10 and 11
-which sadly don't support fragment identifiers on external resources.
+which sadly don't support SVG fragment identifiers on external resources.
 
-This polyfill solves this problem by simply inlining the references shapes from
+This polyfill solves this problem by simply inlining the referenced shapes from
 the given file **without user agent sniffing**.
 
 ## Usage
@@ -22,7 +22,8 @@ resource's file path with the id hash of your desired shape like this:
 </svg>
 ```
 
-Just import *SVGuseIt* into your script and execute it on `DOMContentLoaded`:
+Just import `svgUseIt` into your script (which gets included at the bottom of
+your HTML) or execute it on `DOMContentLoaded`:
 ```javascript
 import svgUseIt from 'svg-use-it';
 
@@ -32,12 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ## Options
+`svgUseIt` takes two paramters:
 
 ### rootSelector
 Provide a root selector to search in `<string>`.
-Default: `body`
+
+* Default: `body`
+* Optional: true
 
 ### blacklist
 You can pass an array of direct children of [rootSelector](#rootSelector) to be
 ignored for replacement.
-Default: `[]`
+
+* Default: `[]`
+* Optional: true
+
+## Good to know
+
+### Feature detection
+Of course this polyfill should only do its job on browsers that don't support
+fragment identifiers from external resources.
+So I researched for a feature that could identify each IE except for MSEdge.
+Due to the fact, that `documentMode` is *just* supported in
+Internet Explorer <= 11, we can use it here to detect support for external
+fragments.
+
+```javascript
+// false on all browsers except for IE <= 11
+Boolean(document.documentMode);
+```

@@ -152,10 +152,12 @@ function init(rootSelector, blacklist, query) {
 }
 
 /**
- * @param {HTMLElement} testNode
+ * Due to the fact, that documentMode is *just* supported in
+ * Internet Explorer 5-11, we can use it here to detect support for external
+ * fragments.
  */
-function supportsExternalFragments (testNode) {
-	return testNode.getBoundingClientRect().width > 0;
+function notSupportsExternalFragments () {
+	return Boolean(document.documentMode);
 }
 
 /**
@@ -165,16 +167,8 @@ function supportsExternalFragments (testNode) {
 function svgUseIt (rootSelector, blacklist) {
 	// element name to query for
 	var query = 'use';
-	var testNode = document.querySelector(query);
-	var testNodeIsNode = testNode instanceof Node;
 
-	if (!testNodeIsNode) {
-		return;
-	}
-
-	var supportsExtFragments = supportsExternalFragments(testNode);
-
-	if (!supportsExtFragments) {
+	if (notSupportsExternalFragments()) {
 		// setting default values
 		rootSelector = rootSelector || 'body';
 		blacklist = blacklist || [];

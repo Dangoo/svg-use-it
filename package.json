@@ -1,0 +1,8 @@
+{
+  "name": "svg-use-it",
+  "version": "1.0.0",
+  "description": "SVG use polyfill for IE10",
+  "main": "src/index.js",
+  "author": "Daniel Gooss",
+  "license": "MIT"
+}

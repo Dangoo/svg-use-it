@@ -7,20 +7,27 @@ var parser = document.createElement('a');
  * @return {Object}                Object with sorted use elements
  */
 function sortItems(items, element) {
-	parser.href = element.getAttribute('xlink:href');
+	var xlink = element.getAttribute('xlink:href');
 
-	var filePath = parser.pathname;
+	// return if xlink just contains fragment
+	if (xlink[0] === '#') {
+		return items;
+	}
 
+	// read parsed url
+	parser.href = xlink;
+
+	var filePath = parser.href;
 	var hash = parser.hash;
 
-	if (!items[filePath]) {
+	var item = items[filePath];
+
+	if (!item) {
 		items[filePath] = {
 			nodes: [],
 			fragments: []
 		};
 	}
-
-	var item = items[filePath];
 
 	item.nodes.push({
 		element: element,
@@ -85,7 +92,7 @@ function fileLoaded(xhr, resourceFiles) {
 	if (
 		xhr.readyState === 4 &&
 		response &&
-		response.contentType === 'image/svg+xml'
+		Boolean(response.documentElement)
 	) {
 		var symbols = getSymbols(
 			response.documentElement,
@@ -99,7 +106,8 @@ function fileLoaded(xhr, resourceFiles) {
 }
 
 /**
- * @param  {String} filePath File path to request
+ * @param  {String}   filePath File path to request
+ * @param  {Function} callback Function to get executed on load
  */
 function fetchFile(filePath, callback) {
 	// using XMLHttpRequest here due to lack of fetch support in browsers not supporting fragments
@@ -119,7 +127,7 @@ function fetchFile(filePath, callback) {
  */
 function init(rootSelector, blacklist, query) {
 	// building the negotiation for blacklisting
-	var negotiations = blacklist.map(item => {
+	var negotiations = blacklist.map(function (item) {
 		return [':not(', item, ')'].join('');
 	}).join('');
 
@@ -154,14 +162,19 @@ function supportsExternalFragments(testNode) {
  * @param {String} rootSelector Entry component
  * @param {Array}  blacklist    Blacklist for child nodes
  */
-export default function(rootSelector, blacklist) {
+module.exports = function (rootSelector, blacklist) {
 	// element name to query for
 	var query = 'use';
-	var supportsExternalFragments = supportsExternalFragments(
-		document.querySelector(query)
-	);
+	var testNode = document.querySelector(query);
+	var testNodeIsNode = testNode instanceof Node;
 
-	if (!supportsExternalFragments) {
+	if (!testNodeIsNode) {
+		return;
+	}
+
+	var supportsExtFragments = supportsExternalFragments(testNode);
+
+	if (!supportsExtFragments) {
 		// setting default values
 		rootSelector = rootSelector || 'body';
 		blacklist = blacklist || [];

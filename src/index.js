@@ -17,8 +17,8 @@ function sortItems(items, element) {
 	// read parsed url
 	parser.href = xlink;
 
-	var filePath = parser.href;
 	var hash = parser.hash;
+	var filePath = parser.href.split(hash)[0];
 
 	if (!items[filePath]) {
 		items[filePath] = {

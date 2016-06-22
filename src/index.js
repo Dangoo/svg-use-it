@@ -67,7 +67,7 @@ function embed(item, content) {
 
 	// In some edge cases item looses its parent, this needs further investigation
 	// content might be undefined if ID doesn't exist in external file.
-	if (!parent && !content) {
+	if (!parent || !content) {
 		return;
 	}
 

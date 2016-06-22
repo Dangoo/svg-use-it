@@ -66,7 +66,8 @@ function embed(item, content) {
 	var parent = item.parentNode;
 
 	// In some edge cases item looses its parent, this needs further investigation
-	if (!parent) {
+	// content might be undefined if ID doesn't exist in external file.
+	if (!parent && !content) {
 		return;
 	}
 

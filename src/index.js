@@ -65,6 +65,11 @@ function getSymbols(doc, ids) {
 function embed(item, content) {
 	var parent = item.parentNode;
 
+	// In some edge cases item looses its parent, this needs further investigation
+	if (!parent) {
+		return;
+	}
+
 	// Setting viewBox attribute if not already set
 	if (!parent.getAttribute('viewBox')) {
 		parent.setAttribute('viewBox', content.getAttribute('viewBox'));

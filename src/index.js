@@ -63,7 +63,7 @@ function getSymbols(doc, ids) {
  * @param  {SVGSymbolElement} content SVG contents to replace <use>
  */
 function embed(item, content) {
-	var parent = item.parentNode;
+	var parent = item.parentElement;
 
 	// In some edge cases item looses its parent, this needs further investigation
 	if (!parent) {

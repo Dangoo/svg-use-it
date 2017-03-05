@@ -1,5 +1,7 @@
 # SVG&lt;use&gt;It
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sinnerschrader/svg-use-it.svg)](https://greenkeeper.io/)
+
 ## About
 
 In many web projects there are browser lists including IE10 and 11

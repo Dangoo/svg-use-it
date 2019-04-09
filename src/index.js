@@ -7,10 +7,10 @@ var parser = document.createElement('a');
  * @return {Object}                Object with sorted use elements
  */
 function sortItems(items, element) {
-	var xlink = element.getAttribute('xlink:href');
+	var xlink = element.getAttribute('xlink:href') || element.getAttribute('href');
 
 	// return if xlink just contains fragment
-	if (xlink[0] === '#') {
+	if (!xlink || xlink[0] === '#') {
 		return items;
 	}
 

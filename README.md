@@ -1,4 +1,5 @@
 # SVG&lt;use&gt;It
+![npm (tag)](https://img.shields.io/npm/v/svg-use-it/latest.svg?style=flat-square)
 
 ## About
 

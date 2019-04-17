@@ -8,9 +8,14 @@ var parser = document.createElement('a');
  */
 function sortItems(items, element) {
 	var xlink = element.getAttribute('xlink:href') || element.getAttribute('href');
-
-	// return if no href attribute present or just contains fragment
-	if (!xlink || xlink[0] === '#') {
+	
+	// return if neither xlink:href nor href attribute present
+	if (xlink === null) {
+		return items;
+	}
+	
+	// return if xlink just contains fragment
+	if (xlink[0] === '#') {
 		return items;
 	}
 
